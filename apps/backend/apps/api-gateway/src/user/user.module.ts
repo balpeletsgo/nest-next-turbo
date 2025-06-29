@@ -13,7 +13,9 @@ import { UserController } from './user.controller';
         transport: Transport.TCP,
         options: {
           host: process.env.USER_SERVICE_HOST || 'localhost',
-          port: 8001,
+          port: process.env.USER_SERVICE_PORT
+            ? parseInt(process.env.USER_SERVICE_PORT)
+            : 8001,
         },
       },
     ]),

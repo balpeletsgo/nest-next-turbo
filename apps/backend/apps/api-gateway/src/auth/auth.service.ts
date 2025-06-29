@@ -1,5 +1,6 @@
 import { PrismaService } from '@app/shared/database';
-import { SignInDTO, SignUpDTO, AuthResponse } from '@app/shared/schemas';
+import { SignInDTO, SignUpDTO } from '@app/shared/schemas';
+import { AuthResponse } from '@workspace/responses';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
@@ -51,16 +52,22 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        'Credentials provided are invalid',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
-      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+      throw new HttpException(
+        'Credentials provided are invalid',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
-    const payload = { id: user.id, email: user.email, name: user.name };
+    const payload = { id: user.id, role: user.role };
 
     const token = await this.jwt.signAsync(payload, {
       algorithm: 'HS256',
@@ -68,8 +75,6 @@ export class AuthService {
 
     return {
       id: user.id,
-      email: user.email,
-      name: user.name,
       access_token: token,
     };
   }
