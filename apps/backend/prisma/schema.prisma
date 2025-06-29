@@ -34,3 +34,102 @@ model User {
   @@index([email], name: "idx_user_email")
   @@map("users")
 }
+
+enum BookStatus {
+  AVAILABLE
+  UNAVAILABLE
+  ARCHIVED
+}
+
+model Book {
+  id              String         @id @default(uuid())
+  title           String         @db.VarChar(255)
+  description     String         @db.Text
+  synopsis        String         @db.Text
+  cover           String         @db.VarChar(255)
+  copiesCount     Int            @default(10) @db.Integer
+  copiesAvailable Int            @default(0) @db.Integer
+  status          BookStatus     @default(AVAILABLE)
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  deletedAt       DateTime?
+  BookCategory    BookCategory[]
+  BookAuthor      BookAuthor[]
+  publisherId     String
+  Publisher       Publisher      @relation(fields: [publisherId], references: [id])
+
+  @@index([title], name: "idx_book_title")
+  @@index([status], name: "idx_book_status")
+  @@map("books")
+}
+
+model Category {
+  id           String         @id @default(uuid())
+  name         String         @db.VarChar(255)
+  slug         String         @db.VarChar(255)
+  description  String         @db.Text
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  deletedAt    DateTime?
+  BookCategory BookCategory[]
+
+  @@unique([name])
+  @@index([name], name: "idx_category_name")
+  @@map("categories")
+}
+
+model Author {
+  id         String       @id @default(uuid())
+  name       String       @db.VarChar(255)
+  bio        String       @db.Text
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  deletedAt  DateTime?
+  BookAuthor BookAuthor[]
+
+  @@index([name], name: "idx_author_name")
+  @@map("authors")
+}
+
+model Publisher {
+  id        String    @id @default(uuid())
+  name      String    @db.VarChar(255)
+  address   String    @db.Text
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  Book      Book[]
+
+  @@index([name], name: "idx_publisher_name")
+  @@map("publishers")
+}
+
+model BookCategory {
+  bookId     String
+  categoryId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  books      Book     @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  categories Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([bookId, categoryId])
+  @@index([bookId], name: "idx_book_category_book_id")
+  @@index([categoryId], name: "idx_book_category_category_id")
+  @@map("book_categories")
+}
+
+model BookAuthor {
+  bookId    String
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  books   Book   @relation(fields: [bookId], references: [id], onDelete: Cascade)
+  authors Author @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@id([bookId, authorId])
+  @@index([bookId], name: "idx_book_author_book_id")
+  @@index([authorId], name: "idx_book_author_author_id")
+  @@map("book_authors")
+}
