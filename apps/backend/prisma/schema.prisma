@@ -44,6 +44,7 @@ enum BookStatus {
 model Book {
   id              String         @id @default(uuid())
   title           String         @db.VarChar(255)
+  slug            String         @db.VarChar(255)
   description     String         @db.Text
   synopsis        String         @db.Text
   cover           String         @db.VarChar(255)
@@ -81,6 +82,7 @@ model Category {
 model Author {
   id         String       @id @default(uuid())
   name       String       @db.VarChar(255)
+  slug       String       @db.VarChar(255)
   bio        String       @db.Text
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
@@ -94,6 +96,7 @@ model Author {
 model Publisher {
   id        String    @id @default(uuid())
   name      String    @db.VarChar(255)
+  slug      String    @db.VarChar(255)
   address   String    @db.Text
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
