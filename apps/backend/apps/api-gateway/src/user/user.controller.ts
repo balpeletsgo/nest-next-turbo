@@ -1,10 +1,7 @@
+import { AdminGuard } from '@app/shared/guards/admin.guard';
 import { JwtAuthGuard } from '@app/shared/guards/jwt.guard';
-import {
-  UpdateProfileRequestDTO,
-  UserRequest,
-  UserResponse,
-  WebResponse,
-} from '@app/shared/schemas';
+import { UpdateProfileRequestDTO, UserRequest } from '@app/shared/schemas';
+import { UserResponse, WebResponse } from '@workspace/responses';
 import {
   Body,
   Controller,
@@ -142,6 +139,7 @@ export class UserController {
   }
 
   @Get()
+  @UseGuards(AdminGuard)
   @HttpCode(HttpStatus.OK)
   async allUsers(): Promise<WebResponse<UserResponse[]>> {
     try {

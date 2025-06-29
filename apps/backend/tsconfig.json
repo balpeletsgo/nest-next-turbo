@@ -29,7 +29,10 @@
       ],
       "@app/shared/*": [
         "libs/shared/src/*"
-      ]
+      ],
+      "@workspace/responses": [
+        "../../packages/responses/src"
+      ],
     }
   }
 }

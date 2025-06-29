@@ -1,5 +1,6 @@
 import { PrismaService } from '@app/shared/database';
-import { UpdateProfileRequestDTO, UserResponse } from '@app/shared/schemas';
+import { UpdateProfileRequestDTO } from '@app/shared/schemas';
+import { UserResponse } from '@workspace/responses';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from 'generated/prisma';
 
@@ -28,6 +29,8 @@ export class UserService {
       id: foundUser.id,
       email: foundUser.email,
       name: foundUser.name,
+      role: foundUser.role,
+      isMember: foundUser.isMember,
     };
   }
 
@@ -66,6 +69,8 @@ export class UserService {
       id: user.id,
       email: user.email,
       name: user.name,
+      role: user.role,
+      isMember: user.isMember,
     };
   }
 
@@ -75,6 +80,8 @@ export class UserService {
         id: true,
         email: true,
         name: true,
+        role: true,
+        isMember: true,
       },
     });
 
@@ -82,6 +89,8 @@ export class UserService {
       id: user.id,
       email: user.email,
       name: user.name,
+      role: user.role,
+      isMember: user.isMember,
     }));
   }
 }

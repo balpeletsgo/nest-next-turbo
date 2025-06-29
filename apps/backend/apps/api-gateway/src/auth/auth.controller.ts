@@ -1,9 +1,5 @@
-import {
-  WebResponse,
-  AuthResponse,
-  SignInDTO,
-  SignUpDTO,
-} from '@app/shared/schemas';
+import { SignInDTO, SignUpDTO } from '@app/shared/schemas';
+import { AuthResponse, WebResponse } from '@workspace/responses';
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
