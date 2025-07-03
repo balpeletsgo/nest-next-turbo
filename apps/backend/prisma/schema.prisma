@@ -74,7 +74,6 @@ model Category {
   deletedAt    DateTime?
   BookCategory BookCategory[]
 
-  @@unique([name])
   @@index([name], name: "idx_category_name")
   @@map("categories")
 }
