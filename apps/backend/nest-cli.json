@@ -45,6 +45,15 @@
       "compilerOptions": {
         "tsConfigPath": "apps/categories/tsconfig.app.json"
       }
+    },
+    "authors": {
+      "type": "application",
+      "root": "apps/author",
+      "entryFile": "main",
+      "sourceRoot": "apps/author/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/author/tsconfig.app.json"
+      }
     }
   }
 }

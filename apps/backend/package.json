@@ -12,6 +12,7 @@
     "dev": "nest start --watch",
     "dev:user": "nest start user --watch",
     "dev:categories": "nest start categories --watch",
+    "dev:authors": "nest start authors --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
