@@ -58,9 +58,15 @@ export class UserController {
   }
 
   @MessagePattern('allUsers')
-  async allUsers() {
+  async allUsers(@Payload() req: UserRequest) {
     try {
-      return await this.userService.allUsers();
+      const user = req.user;
+
+      if (!user || !user.id) {
+        throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+      }
+
+      return await this.userService.allUsers(user);
     } catch (error) {
       throw error;
     }

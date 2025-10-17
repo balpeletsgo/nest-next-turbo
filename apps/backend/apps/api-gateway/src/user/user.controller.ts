@@ -141,9 +141,13 @@ export class UserController {
   @Get()
   @UseGuards(AdminGuard)
   @HttpCode(HttpStatus.OK)
-  async allUsers(): Promise<WebResponse<UserResponse[]>> {
+  async allUsers(
+    @Req() req: UserRequest,
+  ): Promise<WebResponse<UserResponse[]>> {
     try {
-      const res = this.userClient.send('allUsers', {});
+      const user = req.user;
+
+      const res = this.userClient.send('allUsers', { user });
       const result = await lastValueFrom(res);
 
       if (result && !result.success && result.status) {
