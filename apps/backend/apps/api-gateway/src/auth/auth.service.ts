@@ -22,7 +22,7 @@ export class AuthService {
     });
 
     if (isUserExists) {
-      throw new HttpException('User already exists', HttpStatus.CONFLICT);
+      throw new HttpException('User is not available', HttpStatus.CONFLICT);
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

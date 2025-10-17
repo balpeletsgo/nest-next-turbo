@@ -23,7 +23,7 @@ async function bootstrap() {
   await app.listen();
 
   Logger.log(
-    `🚀 User microservice is listening at ${process.env.USER_SERVICE_HOST ?? 'localhost'}:${port}`,
+    `🚀 User microservice is listening at: http://${process.env.USER_SERVICE_HOST ?? 'localhost'}:${port}`,
   );
 }
 bootstrap();

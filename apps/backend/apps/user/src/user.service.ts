@@ -74,8 +74,16 @@ export class UserService {
     };
   }
 
-  async allUsers(): Promise<UserResponse[]> {
+  async allUsers(user: User): Promise<UserResponse[]> {
     const users = await this.prisma.user.findMany({
+      where: {
+        id: {
+          not: user.id,
+        },
+        role: {
+          not: 'ADMIN',
+        },
+      },
       select: {
         id: true,
         email: true,
