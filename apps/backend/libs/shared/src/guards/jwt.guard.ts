@@ -26,7 +26,7 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
       req.headers['Authorization']?.split(' ')[1];
 
     if (!token) {
-      throw new UnauthorizedException('No token provided');
+      throw new UnauthorizedException('Unauthorized');
     }
 
     try {
