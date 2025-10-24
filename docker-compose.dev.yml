@@ -32,7 +32,7 @@ services:
       start_period: 40s
 
   database:
-    image: postgres:15-alpine
+    image: postgres:13-alpine
     container_name: nest-next-db
     environment:
       POSTGRES_USER: postgres
