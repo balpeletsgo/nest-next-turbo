@@ -1,8 +1,8 @@
-FROM node:20-slim AS base
+FROM node:20-alpine AS base
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
-RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache openssl
 
 ##### BUILDER
 
@@ -24,7 +24,7 @@ RUN pnpm install --frozen-lockfile
 
 COPY --from=builder /app/out/full/ .
 
-RUN pnpm turbo build --filter=backend
+RUN cd apps/backend && pnpm build && pnpm build:user
 
 RUN pnpm prune --prod
 
@@ -33,7 +33,7 @@ RUN pnpm prune --prod
 FROM base AS runner
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends dumb-init && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache dumb-init
 
 COPY --from=installer /app/node_modules ./node_modules
 COPY --from=installer /app/apps/backend/node_modules ./apps/backend/node_modules
