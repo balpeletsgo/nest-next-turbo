@@ -1,0 +1,43 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: apps/backend/Dockerfile
+    container_name: nest-backend
+    restart: unless-stopped
+    ports:
+      - "${API_GATEWAY_PORT:-8000}:8000"
+      - "${USER_SERVICE_PORT:-8001}:8001"
+    environment:
+      # Application
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${API_GATEWAY_PORT:-8000}
+      HOST: ${HOST:-0.0.0.0}
+
+      # User Microservice
+      USER_SERVICE_HOST: ${USER_SERVICE_HOST:-localhost}
+      USER_SERVICE_PORT: ${USER_SERVICE_PORT:-8001}
+
+      # Database
+      DATABASE_URL: postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-nest_next}?schema=public
+
+      # JWT
+      JWT_SECRET: ${JWT_SECRET:-your-super-secret-jwt-key-change-this-in-production}
+    networks:
+      - app-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:8000/api', (r) => process.exit(r.statusCode === 404 ? 0 : 1))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  app-network:
+    driver: bridge
