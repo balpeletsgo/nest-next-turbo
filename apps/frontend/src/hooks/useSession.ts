@@ -6,11 +6,11 @@ import type { UserPayload } from "@/lib/session";
 
 // Private context hook - not exported
 function useSessionContext() {
-	const context = useContext(SessionContext);
-	if (context === undefined) {
-		throw new Error("Session hooks must be used within a SessionProvider");
-	}
-	return context;
+  const context = useContext(SessionContext);
+  if (context === undefined) {
+    throw new Error("Session hooks must be used within a SessionProvider");
+  }
+  return context;
 }
 
 // ============================================================================
@@ -22,13 +22,13 @@ function useSessionContext() {
  * Returns: user, isAuthenticated, isLoading
  */
 export function useSession() {
-	const context = useSessionContext();
+  const context = useSessionContext();
 
-	return {
-		user: context.user,
-		isAuthenticated: context.isAuthenticated,
-		isLoading: context.isLoading,
-	};
+  return {
+    user: context.user,
+    isAuthenticated: context.isAuthenticated,
+    isLoading: context.isLoading,
+  };
 }
 
 // ============================================================================
@@ -40,13 +40,13 @@ export function useSession() {
  * Returns: login, logout, refreshSession functions
  */
 export function useAuth() {
-	const context = useSessionContext();
+  const context = useSessionContext();
 
-	return {
-		login: context.login,
-		logout: context.logout,
-		refreshSession: context.refreshSession,
-	};
+  return {
+    login: context.login,
+    logout: context.logout,
+    refreshSession: context.refreshSession,
+  };
 }
 
 /**
@@ -54,8 +54,8 @@ export function useAuth() {
  * Returns: login function
  */
 export function useLogin() {
-	const context = useSessionContext();
-	return context.login;
+  const context = useSessionContext();
+  return context.login;
 }
 
 /**
@@ -63,8 +63,8 @@ export function useLogin() {
  * Returns: logout function
  */
 export function useLogout() {
-	const context = useSessionContext();
-	return context.logout;
+  const context = useSessionContext();
+  return context.logout;
 }
 
 /**
@@ -72,8 +72,8 @@ export function useLogout() {
  * Returns: refreshSession function
  */
 export function useRefreshSession() {
-	const context = useSessionContext();
-	return context.refreshSession;
+  const context = useSessionContext();
+  return context.refreshSession;
 }
 
 // ============================================================================

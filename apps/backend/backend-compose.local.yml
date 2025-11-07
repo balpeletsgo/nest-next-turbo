@@ -8,15 +8,13 @@ services:
       args:
         - APP=api-gateway
     environment:
-      PORT: 8000
-      USER_SERVICE_PORT: 8001
       DATABASE_URL: postgresql://postgres:postgres@database:5432/nest_next?schema=public
       JWT_SECRET: super-secret-jwt-key
+      PORT: 8000
+      USER_SERVICE_HOST: user-service
     restart: unless-stopped
     ports:
       - '8000:8000'
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
     volumes:
       - ../..:/app
       - /app/node_modules
@@ -38,15 +36,13 @@ services:
       args:
         - APP=user
     environment:
-      PORT: 8001
-      USER_SERVICE_PORT: 8001
       DATABASE_URL: postgresql://postgres:postgres@database:5432/nest_next?schema=public
       JWT_SECRET: super-secret-jwt-key
+      PORT: 8001
+      USER: 0.0.0.0
     restart: unless-stopped
     ports:
       - '8001:8001'
-    extra_hosts:
-      - 'host.docker.internal:host-gateway'
     volumes:
       - ../..:/app
       - /app/node_modules
