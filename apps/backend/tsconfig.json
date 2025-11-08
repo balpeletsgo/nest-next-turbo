@@ -32,7 +32,7 @@
       ],
       "@workspace/responses": [
         "../../packages/responses/src"
-      ],
+      ]
     }
   }
 }

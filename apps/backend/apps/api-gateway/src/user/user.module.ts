@@ -15,7 +15,7 @@ import { UserController } from './user.controller';
           host: process.env.USER_SERVICE_HOST || 'localhost',
           port: process.env.USER_SERVICE_PORT
             ? parseInt(process.env.USER_SERVICE_PORT)
-            : 8001,
+            : 8002,
         },
       },
     ]),

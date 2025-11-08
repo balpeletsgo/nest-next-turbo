@@ -7,11 +7,14 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
+    "build:auth": "nest build auth",
     "build:user": "nest build user",
-    "format": "prettier --write \"{src,apps,libs,test}/**/*.ts\" \"{src,apps,libs,test}/**/*.ts\"",
+    "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
+    "start:auth": "nest start auth",
     "start:user": "nest start user",
     "dev": "nest start --watch",
+    "dev:auth": "nest start auth --watch",
     "dev:user": "nest start user --watch",
     "debug": "nest start --debug --watch",
     "prod": "node dist/apps/api-gateway/main",
@@ -20,7 +23,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "test:e2e": "jest --config ./apps/backend/test/jest-e2e.json",
     "postinstall": "prisma generate"
   },
   "prisma": {
@@ -74,7 +77,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
@@ -82,8 +85,11 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/apps/"
+    ]
   },
   "packageManager": "pnpm@10.11.0"
 }

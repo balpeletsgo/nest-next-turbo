@@ -1,18 +1,18 @@
-import { ErrorFilter, CustomValidationPipe } from '@app/shared';
-import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
+import { AuthModule } from './auth.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { UserModule } from './user.module';
+import { CustomValidationPipe, ErrorFilter } from '@app/shared';
+import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
-  const port = parseInt(process.env.USER_SERVICE_PORT) || 8002;
+  const port = parseInt(process.env.AUTH_SERVICE_PORT) || 8001;
 
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    UserModule,
+    AuthModule,
     {
       transport: Transport.TCP,
       options: {
-        host: process.env.USER_SERVICE_HOST ?? 'localhost',
+        host: process.env.AUTH_SERVICE_HOST ?? 'localhost',
         port: port,
       },
     },
@@ -23,7 +23,7 @@ async function bootstrap() {
   await app.listen();
 
   Logger.log(
-    `🚀 User microservice is listening at: http://${process.env.USER_SERVICE_HOST ?? 'localhost'}:${port}`,
+    `🚀 Auth microservice is listening at: http://${process.env.AUTH_SERVICE_HOST ?? 'localhost'}:${port}`,
   );
 }
 bootstrap();

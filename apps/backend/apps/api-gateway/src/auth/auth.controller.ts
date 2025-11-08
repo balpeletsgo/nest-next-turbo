@@ -1,35 +1,88 @@
 import { SignInDTO, SignUpDTO } from '@app/shared/schemas';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Inject,
+  Post,
+} from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { AuthResponse, WebResponse } from '@workspace/responses';
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { lastValueFrom, TimeoutError } from 'rxjs';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly auth: AuthService) {}
+  constructor(
+    @Inject('auth_service') private readonly authClient: ClientProxy,
+  ) {}
 
   @Post('sign_up')
   @HttpCode(HttpStatus.CREATED)
   async signUp(@Body() request: SignUpDTO): Promise<WebResponse<AuthResponse>> {
-    const result = await this.auth.signUp(request);
+    try {
+      const res = this.authClient.send('sign_up', { request });
+      const result = await lastValueFrom(res);
 
-    return {
-      success: true,
-      status: HttpStatus.CREATED,
-      message: 'User registered successfully',
-      data: result,
-    };
+      if (result && !result.success && result.status) {
+        throw new HttpException(
+          {
+            success: false,
+            status: result.status,
+            message: result.message || 'Auth service error',
+            ...(result.errors && { errors: result.errors }),
+          },
+          result.status,
+        );
+      }
+
+      return {
+        success: true,
+        status: HttpStatus.CREATED,
+        message: 'User registered successfully',
+        data: result,
+      };
+    } catch (error) {
+      if (error instanceof TimeoutError) {
+        throw new HttpException('Service timeout', HttpStatus.GATEWAY_TIMEOUT);
+      }
+
+      throw error;
+    }
   }
 
   @Post('sign_in')
   @HttpCode(HttpStatus.OK)
   async signIn(@Body() request: SignInDTO): Promise<WebResponse<AuthResponse>> {
-    const result = await this.auth.signIn(request);
+    try {
+      const res = this.authClient.send('sign_in', { request });
+      const result = await lastValueFrom(res);
 
-    return {
-      success: true,
-      status: HttpStatus.OK,
-      message: 'User signed in successfully',
-      data: result,
-    };
+      if (result && !result.success && result.status) {
+        throw new HttpException(
+          {
+            success: false,
+            status: result.status,
+            message: result.message || 'Auth service error',
+            ...(result.errors && { errors: result.errors }),
+          },
+          result.status,
+        );
+      }
+
+      return {
+        success: true,
+        status: HttpStatus.CREATED,
+        message: 'User signed in successfully',
+        data: result,
+      };
+    } catch (error) {
+      if (error instanceof TimeoutError) {
+        throw new HttpException('Service timeout', HttpStatus.GATEWAY_TIMEOUT);
+      }
+
+      throw error;
+    }
   }
 }
