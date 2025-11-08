@@ -1,8 +1,8 @@
+import { QueryProviders, SessionProviders } from "@/providers";
+import "@/styles/styles.css";
 import type { Metadata } from "next";
 import { Geist, IBM_Plex_Mono } from "next/font/google";
-import "@/styles/styles.css";
 import { Toaster } from "sonner";
-import { QueryProviders, SessionProviders } from "@/providers";
 
 const geistSans = Geist({
   variable: "--font-sans",
