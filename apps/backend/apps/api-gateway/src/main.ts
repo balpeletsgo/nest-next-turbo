@@ -6,7 +6,9 @@ import { ErrorFilter, CustomValidationPipe } from '@app/shared';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors();
+  app.enableCors({
+    origin: '*',
+  });
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new ErrorFilter());
   app.useGlobalPipes(new CustomValidationPipe());
