@@ -14,14 +14,9 @@ export class HttpClient {
   private async createHeaders(customHeaders: HeadersInit = {}, body?: unknown) {
     const headers = new Headers(customHeaders);
 
-    if (!(body instanceof FormData)) {
-      if (!headers.has("Content-Type")) {
-        headers.set("Content-Type", "application/json");
-      }
+    if (!headers.has("Content-Type")) {
+      headers.set("Content-Type", "application/json");
     }
-
-    // For client-side requests, we'll handle auth differently
-    // You can add token management here if needed for client-side auth
 
     return headers;
   }
@@ -49,7 +44,6 @@ export class HttpClient {
       throw error;
     }
 
-    // Handle empty responses
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
       return response.json();
