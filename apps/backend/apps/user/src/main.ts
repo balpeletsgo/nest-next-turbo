@@ -12,7 +12,7 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        host: process.env.USER_SERVICE_HOST ?? 'localhost',
+        host: process.env.USER ?? 'localhost',
         port: port,
       },
     },
@@ -23,7 +23,7 @@ async function bootstrap() {
   await app.listen();
 
   Logger.log(
-    `🚀 User microservice is listening at: http://${process.env.USER_SERVICE_HOST ?? 'localhost'}:${port}`,
+    `🚀 User microservice is listening at: http://${process.env.USER ?? 'localhost'}:${port}`,
   );
 }
 bootstrap();

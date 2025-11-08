@@ -1,0 +1,46 @@
+services:
+  api-gateway:
+    container_name: api-gateway
+    build:
+      context: ../..
+      dockerfile: apps/backend/Dockerfile
+      args:
+        - APP=api-gateway
+    environment:
+      PORT: 8000
+      USER_SERVICE_PORT: 8001
+      DATABASE_URL: postgresql://postgres:postgres@database:5432/nest_next?schema=public
+      JWT_SECRET: super-secret-jwt-key
+    restart: always
+    ports:
+      - '8000:8000'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    networks:
+      - app-network
+    depends_on:
+      database:
+        condition: service_healthy
+
+  user-service:
+    container_name: user-service
+    build:
+      context: ../..
+      dockerfile: apps/backend/Dockerfile
+      args:
+        - APP=user
+    environment:
+      PORT: 8001
+      USER_SERVICE_PORT: 8001
+      DATABASE_URL: postgresql://postgres:postgres@database:5432/nest_next?schema=public
+      JWT_SECRET: super-secret-jwt-key
+    restart: always
+    ports:
+      - '8001:8001'
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    networks:
+      - app-network
+    depends_on:
+      database:
+        condition: service_healthy

@@ -1,0 +1,19 @@
+services:
+  frontend:
+    container_name: frontend
+    image: frontend:next-local
+    build:
+      context: ../..
+      dockerfile: apps/frontend/Dockerfile.local
+    env_file: .env.docker
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../..:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - app-network
+    depends_on:
+      - api-gateway
