@@ -15,7 +15,7 @@ export class GetUserProfileDTO {
 export class UpdateProfileRequestDTO {
   @IsOptional()
   @IsString({ message: 'Name must be a string' })
-  @MinLength(1, { message: 'Name must be at least 1 character long' })
+  @MinLength(3, { message: 'Name must be at least 3 character long' })
   @Matches(/^$|^[a-zA-Z\s]+$/, {
     message:
       'Name can only contain letters and spaces, no special symbols allowed',

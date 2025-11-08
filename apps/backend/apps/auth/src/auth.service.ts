@@ -1,8 +1,8 @@
 import { PrismaService } from '@app/shared/database';
 import { SignInDTO, SignUpDTO } from '@app/shared/schemas';
-import { AuthResponse } from '@workspace/responses';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { AuthResponse } from '@workspace/responses';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
