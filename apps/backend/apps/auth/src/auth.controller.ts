@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @MessagePattern('sign_up')
+  @MessagePattern('sign-up')
   async signUp(@Payload('request') request: SignUpDTO) {
     try {
       return this.authService.signUp(request);
@@ -16,7 +16,7 @@ export class AuthController {
     }
   }
 
-  @MessagePattern('sign_in')
+  @MessagePattern('sign-in')
   async signIn(@Payload('request') request: SignInDTO) {
     try {
       return this.authService.signIn(request);

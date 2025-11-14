@@ -18,11 +18,11 @@ export class AuthController {
     @Inject('auth_service') private readonly authClient: ClientProxy,
   ) {}
 
-  @Post('sign_up')
+  @Post('sign-up')
   @HttpCode(HttpStatus.CREATED)
   async signUp(@Body() request: SignUpDTO): Promise<WebResponse<AuthResponse>> {
     try {
-      const res = this.authClient.send('sign_up', { request });
+      const res = this.authClient.send('sign-up', { request });
       const result = await lastValueFrom(res);
 
       if (result && !result.success && result.status) {
@@ -52,11 +52,11 @@ export class AuthController {
     }
   }
 
-  @Post('sign_in')
+  @Post('sign-in')
   @HttpCode(HttpStatus.OK)
   async signIn(@Body() request: SignInDTO): Promise<WebResponse<AuthResponse>> {
     try {
-      const res = this.authClient.send('sign_in', { request });
+      const res = this.authClient.send('sign-in', { request });
       const result = await lastValueFrom(res);
 
       if (result && !result.success && result.status) {
