@@ -1,31 +1,36 @@
-import { getSession, getUser } from "@/lib/session";
+import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
-  try {
-    const user = await getUser();
-    const session = await getSession();
+	try {
+		const cookieStore = await cookies();
+		const access_token = cookieStore.get("access_token")?.value;
 
-    if (!user || !session) {
-      return NextResponse.json(
-        { success: false, message: "No active session" },
-        { status: 401 },
-      );
-    }
+		if (!access_token) {
+			return null;
+		}
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        user,
-        expiresAt: session.expiresAt,
-        isAuthenticated: true,
-      },
-    });
-  } catch (error) {
-    console.error("Error getting session:", error);
-    return NextResponse.json(
-      { success: false, message: "Session error" },
-      { status: 500 },
-    );
-  }
+		const response = await fetch(`${process.env.API_URL}/users/me`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${access_token}`,
+			},
+		});
+
+		const data = await response.json();
+
+		if (!response.ok) {
+			return NextResponse.json(data, { status: response.status });
+		}
+
+		return data.data;
+	} catch (error) {
+		return NextResponse.json(
+			{ success: false, status: 500, message: "Internal server error" },
+			{ status: 500 }
+		);
+	}
 }
