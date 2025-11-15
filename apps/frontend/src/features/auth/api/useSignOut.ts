@@ -6,43 +6,43 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 const signOut = async (
-	redirectUrl?: string,
-	router?: ReturnType<typeof useRouter>
+  redirectUrl?: string,
+  router?: ReturnType<typeof useRouter>,
 ) => {
-	const response = await fetch("/api/auth/sign-out", {
-		method: "POST",
-	});
+  const response = await fetch("/api/auth/sign-out", {
+    method: "POST",
+  });
 
-	Cookies.remove("access_token");
+  Cookies.remove("session");
 
-	if (!response.ok) {
-		throw new Error("Logout failed");
-	}
+  if (!response.ok) {
+    throw new Error("Logout failed");
+  }
 
-	if (redirectUrl) {
-		router?.push(redirectUrl);
-	} else {
-		router?.refresh();
-	}
+  if (redirectUrl) {
+    router?.push(redirectUrl);
+  } else {
+    router?.refresh();
+  }
 
-	return response.json();
+  return response.json();
 };
 
 type UseSignOutOptions = {
-	mutationConfig?: MutationConfig<typeof signOut>;
+  mutationConfig?: MutationConfig<typeof signOut>;
 };
 
 export const useSignOut = ({ mutationConfig }: UseSignOutOptions = {}) => {
-	const { onSuccess, ...restMutationConfig } = mutationConfig || {};
-	const queryClient = useQueryClient();
-	const router = useRouter();
+  const { onSuccess, ...restMutationConfig } = mutationConfig || {};
+  const queryClient = useQueryClient();
+  const router = useRouter();
 
-	return useMutation({
-		mutationFn: (redirectUrl?: string) => signOut(redirectUrl, router),
-		onSuccess: (...args) => {
-			queryClient.clear();
-			onSuccess?.(...args);
-		},
-		...restMutationConfig,
-	});
+  return useMutation({
+    mutationFn: (redirectUrl?: string) => signOut(redirectUrl, router),
+    onSuccess: (...args) => {
+      queryClient.clear();
+      onSuccess?.(...args);
+    },
+    ...restMutationConfig,
+  });
 };

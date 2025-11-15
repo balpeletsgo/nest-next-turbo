@@ -4,35 +4,35 @@ import { SignInRequest } from "../schemas";
 import { useGetSession } from "./getSession";
 
 export const signIn = async (request: SignInRequest) => {
-	const response = await fetch("/api/auth/sign-in", {
-		method: "POST",
-		headers: { "Content-Type": "application/json" },
-		body: JSON.stringify(request),
-	});
+  const response = await fetch("/api/auth/sign-in", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(request),
+  });
 
-	const result = await response.json();
+  const result = await response.json();
 
-	if (!response.ok) {
-		throw new Error(result.message || "Sign in failed");
-	}
+  if (!response.ok) {
+    throw new Error(result.message || "Sign in failed");
+  }
 
-	return result;
+  return result;
 };
 
 type UseSignInOptions = {
-	mutationConfig?: MutationConfig<typeof signIn>;
+  mutationConfig?: MutationConfig<typeof signIn>;
 };
 
 export const useSignIn = ({ mutationConfig }: UseSignInOptions = {}) => {
-	const { onSuccess, ...restMutationConfig } = mutationConfig || {};
-	const { refetch: refetchSession } = useGetSession();
+  const { onSuccess, ...restMutationConfig } = mutationConfig || {};
+  const { refetch: refetchSession } = useGetSession();
 
-	return useMutation({
-		mutationFn: signIn,
-		onSuccess: (...args) => {
-			refetchSession();
-			onSuccess?.(...args);
-		},
-		...restMutationConfig,
-	});
+  return useMutation({
+    mutationFn: signIn,
+    onSuccess: (...args) => {
+      refetchSession();
+      onSuccess?.(...args);
+    },
+    ...restMutationConfig,
+  });
 };
