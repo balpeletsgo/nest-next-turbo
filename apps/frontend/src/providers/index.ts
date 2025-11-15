@@ -1,2 +1,2 @@
-export * from "@/providers/SessionProviders";
-export * from "@/providers/QueryProviders";
+export * from "@/providers/AppProviders";
+export * from "@/providers/QueryProvider";
