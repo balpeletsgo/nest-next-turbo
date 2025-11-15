@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { getServerSession } from "@/features/auth/api";
 import { SignOutButton } from "@/features/auth/components";
 import Link from "next/link";
+import SessionClient from "./session-client";
 
 export default async function Home() {
 	const session = await getServerSession();
@@ -27,6 +28,7 @@ export default async function Home() {
 						to continue.
 					</p>
 				)}
+				<SessionClient />
 			</div>
 		</div>
 	);

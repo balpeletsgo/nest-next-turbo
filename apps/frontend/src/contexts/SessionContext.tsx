@@ -1,24 +1,14 @@
 "use client";
 
-import { UserPayload } from "@/lib/session";
+import { UserResponse } from "@workspace/responses";
 import { createContext } from "react";
 
-interface SessionData {
-  user: UserPayload | null;
-  isAuthenticated: boolean;
-  isLoading: boolean;
+interface SessionContextType {
+	session: { user: UserResponse | undefined } | null;
+	isAuthenticated: boolean;
+	isLoading: boolean;
 }
 
-interface SessionActions {
-  login: (user: UserPayload) => void;
-  logout: () => void;
-  refreshSession: () => Promise<void>;
-}
-
-interface SessionContextValue extends SessionData, SessionActions {}
-
-export const SessionContext = createContext<SessionContextValue | undefined>(
-  undefined,
+export const SessionContext = createContext<SessionContextType | undefined>(
+	undefined
 );
-
-export type { SessionActions, SessionContextValue, SessionData };
