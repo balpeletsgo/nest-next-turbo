@@ -6,6 +6,7 @@ RUN apk add --no-cache libc6-compat openssl
 
 FROM base AS dev
 ARG APP
+ARG DATABASE_URL
 WORKDIR /app
 
 # Copy only package.json files for dependency resolution
@@ -13,14 +14,17 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY packages/responses/package.json ./packages/responses/package.json
 COPY apps/backend/package.json ./apps/backend/package.json
 
-# Copy Prisma schema
+# Copy Prisma files
 COPY apps/backend/prisma ./apps/backend/prisma
+COPY apps/backend/prisma.config.ts ./apps/backend/prisma.config.ts
+
+ENV DATABASE_URL=${DATABASE_URL}
 
 # Install all dependencies
 RUN pnpm install --frozen-lockfile
 
 # Expose NestJS dev server ports
-EXPOSE 8000 8001
+EXPOSE 8000 8001 8002
 
 # Set environment variable for the app
 ENV APP=${APP}
