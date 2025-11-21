@@ -25,6 +25,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(data);
   } catch (error) {
+    console.log({ error });
     if (error instanceof Error && error.name === "ZodError") {
       return NextResponse.json(
         {

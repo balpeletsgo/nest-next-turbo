@@ -1,5 +1,3 @@
-import Cookies from "js-cookie";
-
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/v1";
 
@@ -15,11 +13,22 @@ class ApiError extends Error {
   }
 }
 
+async function getToken(): Promise<string | null> {
+  try {
+    const response = await fetch("/api/auth/token");
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.access_token;
+  } catch {
+    return null;
+  }
+}
+
 export async function apiRequest<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const token = Cookies.get("session");
+  const token = await getToken();
 
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,

@@ -2,7 +2,6 @@
 
 import { MutationConfig } from "@/lib/query-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 const signOut = async (
@@ -12,8 +11,6 @@ const signOut = async (
   const response = await fetch("/api/auth/sign-out", {
     method: "POST",
   });
-
-  Cookies.remove("session");
 
   if (!response.ok) {
     throw new Error("Logout failed");
