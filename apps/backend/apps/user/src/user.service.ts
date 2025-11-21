@@ -2,7 +2,7 @@ import { PrismaService } from '@app/shared/database';
 import { UpdateProfileRequestDTO } from '@app/shared/schemas';
 import { UserResponse } from '@workspace/responses';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { User } from 'generated/prisma';
+import { User } from 'generated/prisma/client';
 
 @Injectable()
 export class UserService {
