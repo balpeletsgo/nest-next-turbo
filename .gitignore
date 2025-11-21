@@ -28,6 +28,9 @@ out/
 build
 dist
 
+# Prisma generated client
+apps/backend/generated/
+
 
 # Debug
 npm-debug.log*
@@ -37,3 +40,4 @@ yarn-error.log*
 # Misc
 .DS_Store
 *.pem
+.pnpm-store

@@ -1,5 +1,5 @@
 import { IsOptional, IsString, Matches, MinLength } from 'class-validator';
-import { User } from 'generated/prisma';
+import { User } from 'generated/prisma/client';
 
 export interface UserRequest extends Request {
   user: User;
