@@ -8,13 +8,6 @@ FROM base AS dev
 ARG APP
 WORKDIR /app
 
-# Copy only package.json files for dependency resolution
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
-COPY packages/responses/package.json ./packages/responses/package.json
-COPY apps/frontend/package.json ./apps/frontend/package.json
-
-# Install all dependencies
-RUN pnpm install --frozen-lockfile
 
 # Expose Nextjs dev server ports
 EXPOSE 3000
