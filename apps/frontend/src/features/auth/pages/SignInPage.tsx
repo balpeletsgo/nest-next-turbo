@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useSignIn } from "../api/useSignIn";
+import { useSignIn } from "../api/signIn";
 
 export function SignInPage() {
   const router = useRouter();

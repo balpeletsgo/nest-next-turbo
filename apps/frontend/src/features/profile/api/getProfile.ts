@@ -3,28 +3,28 @@ import { QueryConfig } from "@/lib/query-client";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 import { UserResponse, WebResponse } from "@workspace/responses";
 
-export const getSession = async () => {
+export const getProfile = async () => {
   const response = await api.get<WebResponse<UserResponse>>("/users/me");
 
   return response;
 };
 
-export const getSessionQueryKeys = () => ["session"];
+export const getProfileQueryKeys = () => ["profile"];
 
-export const getSessionQueryOptions = () => {
+export const getProfileQueryOptions = () => {
   return queryOptions({
-    queryKey: getSessionQueryKeys(),
-    queryFn: () => getSession(),
+    queryKey: getProfileQueryKeys(),
+    queryFn: () => getProfile(),
   });
 };
 
-type UseSessionOptions = {
-  queryConfig?: QueryConfig<typeof getSessionQueryOptions>;
+type UseProfileOptions = {
+  queryConfig?: QueryConfig<typeof getProfileQueryOptions>;
 };
 
-export const useGetSession = ({ queryConfig }: UseSessionOptions = {}) => {
+export const useGetProfile = ({ queryConfig }: UseProfileOptions = {}) => {
   return useQuery({
-    ...getSessionQueryOptions(),
+    ...getProfileQueryOptions(),
     ...queryConfig,
   });
 };
