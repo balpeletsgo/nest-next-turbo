@@ -10,8 +10,8 @@ export function ThemeSwitcer() {
   const { theme, setTheme } = useTheme();
 
   const handleSwithTheme = useCallback(() => {
-    theme === "light" ? setTheme("dark") : setTheme("light");
-  }, [theme]);
+    setTheme(theme === "dark" ? "light" : "dark");
+  }, [theme, setTheme]);
 
   return (
     <>
