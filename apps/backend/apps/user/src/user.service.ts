@@ -1,4 +1,4 @@
-import { PrismaService } from '@app/shared/database';
+import { PrismaService } from '@app/common/src/database';
 import { UpdateProfileRequestDTO } from '@app/shared/schemas';
 import { UserResponse } from '@workspace/responses';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';

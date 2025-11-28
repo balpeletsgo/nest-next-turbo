@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from './database/prisma.service';
-import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './guards/jwt.strategy';
+import { PrismaService } from '@app/common/src/database';
+import { CommonModule } from '@app/common';
 
 @Module({
   imports: [
@@ -17,8 +18,9 @@ import { JwtStrategy } from './guards/jwt.strategy';
         expiresIn: '1d',
       },
     }),
+    CommonModule,
   ],
-  providers: [PrismaService, JwtStrategy],
-  exports: [PrismaService, JwtModule, PassportModule],
+  providers: [JwtStrategy, PrismaService],
+  exports: [JwtModule, PassportModule],
 })
 export class SharedModule {}
