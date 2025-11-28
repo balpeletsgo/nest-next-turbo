@@ -1,4 +1,4 @@
-import { PrismaService } from '../database';
+import { PrismaService } from '@app/common/src/database';
 import {
   ExecutionContext,
   Injectable,
