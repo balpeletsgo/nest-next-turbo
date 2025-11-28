@@ -32,5 +32,6 @@ model User {
 
   @@unique([email])
   @@index([email], name: "idx_user_email")
+  @@index([id], name: "idx_user_id")
   @@map("users")
 }

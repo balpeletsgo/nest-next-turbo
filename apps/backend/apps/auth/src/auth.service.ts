@@ -1,4 +1,4 @@
-import { PrismaService } from '@app/shared/database';
+import { PrismaService } from '@app/common/src/database';
 import { SignInDTO, SignUpDTO } from '@app/shared/schemas';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';

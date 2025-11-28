@@ -3,6 +3,7 @@ import { Module } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { UserController } from './user.controller';
+import { CommonModule } from '@app/common';
 
 @Module({
   imports: [
@@ -19,8 +20,9 @@ import { UserController } from './user.controller';
         },
       },
     ]),
+    CommonModule,
   ],
-  providers: [JwtService],
+  providers: [],
   controllers: [UserController],
 })
 export class UserModule {}
