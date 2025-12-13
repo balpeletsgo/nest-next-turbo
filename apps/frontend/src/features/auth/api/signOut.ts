@@ -2,19 +2,14 @@
 
 import { MutationConfig } from "@/lib/query-client";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 const signOut = async (
   redirectUrl?: string,
   router?: ReturnType<typeof useRouter>,
 ) => {
-  const response = await fetch("/api/auth/sign-out", {
-    method: "POST",
-  });
-
-  if (!response.ok) {
-    throw new Error("Logout failed");
-  }
+  const response = Cookies.remove("token");
 
   if (redirectUrl) {
     router?.push(redirectUrl);
@@ -22,7 +17,7 @@ const signOut = async (
     router?.refresh();
   }
 
-  return response.json();
+  return response;
 };
 
 type UseSignOutOptions = {

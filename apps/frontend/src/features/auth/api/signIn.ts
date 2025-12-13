@@ -1,22 +1,27 @@
+import { api } from "@/lib/api-client";
 import { MutationConfig } from "@/lib/query-client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { AuthResponse, WebResponse } from "@workspace/responses";
+import Cookies from "js-cookie";
 import { SignInRequest } from "../schemas";
 import { useGetSession } from "./getSession";
 
 export const signIn = async (request: SignInRequest) => {
-  const response = await fetch("/api/auth/sign-in", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(request),
-  });
+  const response = await api.post<WebResponse<AuthResponse>>(
+    "/auth/sign-in",
+    request,
+  );
 
-  const result = await response.json();
-
-  if (!response.ok) {
-    throw new Error(result.message || "Sign in failed");
+  if (response.success) {
+    Cookies.set("token", response.data?.access_token!, {
+      expires: 30,
+      sameSite: "strict",
+      path: "/",
+      secure: true,
+    });
   }
 
-  return result;
+  return response;
 };
 
 type UseSignInOptions = {
