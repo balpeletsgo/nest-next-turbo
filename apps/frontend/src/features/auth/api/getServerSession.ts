@@ -1,7 +1,6 @@
 "use server";
 import { UserResponse } from "@workspace/responses";
 import { cookies } from "next/headers";
-import { decrypt } from "@/lib/session";
 
 export interface Session {
   user: UserResponse;
@@ -10,15 +9,9 @@ export interface Session {
 export const getServerSession = async (): Promise<Session | null> => {
   try {
     const cookieStore = await cookies();
-    const sessionCookie = cookieStore.get("session")?.value;
+    const sessionCookie = cookieStore.get("token")?.value;
 
     if (!sessionCookie) {
-      return null;
-    }
-
-    const payload = await decrypt(sessionCookie);
-
-    if (!payload) {
       return null;
     }
 
@@ -26,7 +19,7 @@ export const getServerSession = async (): Promise<Session | null> => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${payload.token}`,
+        Authorization: `Bearer ${sessionCookie}`,
       },
     });
 
