@@ -35,27 +35,24 @@ export function ProfileMenu() {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="z-50">
-        <div className="flex flex-col gap-1">
-          <div className="flex flex-row items-center gap-1">
-            <DropdownMenuLabel className="py-0 pr-0">
-              {session?.user?.name}
-            </DropdownMenuLabel>
-            <Badge
-              variant="outline"
-              className={cn(
-                "border-primary bg-primary/10 text-primary sr-only",
-                session?.user?.isMember && "not-sr-only",
-              )}
-            >
-              Member
-            </Badge>
-          </div>
-          <DropdownMenuLabel className="py-0 text-xs">
-            {session?.user?.email}
+        <div className="flex flex-col gap-1 px-2">
+          <DropdownMenuLabel className="p-0">
+            {session?.user?.name}
           </DropdownMenuLabel>
+          <Badge
+            variant="outline"
+            className={cn(
+              "border-primary bg-primary/10 text-primary sr-only",
+              session?.user?.isMember && "not-sr-only",
+            )}
+          >
+            Member
+          </Badge>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Profile</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/profile">Profile</Link>
+        </DropdownMenuItem>
         <SignOutButton />
       </DropdownMenuContent>
     </DropdownMenu>
